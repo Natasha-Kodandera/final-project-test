@@ -3,11 +3,11 @@
 version: 1
 project:
   id: template-project
-  title: EXAMPLE PROJECT
+  title: Cluster Analysis on Labour Market Microdata
   description: Template for reproducible research projects in economics
   authors:
-    - name: JANE DOE
-      affiliations: [EXAMPLE UNIVERSITY]
+    - name: Natasha Somayya Kodandera
+      affiliations: [University of Bonn]
       email: janedoe@example-university.de
   keywords: [economics, reproducible research]
   toc:

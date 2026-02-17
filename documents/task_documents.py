@@ -7,7 +7,7 @@ from pathlib import Path
 
 import pytask
 
-from template_project.config import DOCUMENTS, ROOT
+from cluster_analysis.config import DOCUMENTS, ROOT
 
 for fmt, produces in {
     "pdf": ROOT / "paper.pdf",
