@@ -2802,8 +2802,8 @@ packages:
   timestamp: 1765303462831
 - pypi: ./
   name: cluster-analysis
-  version: 0.1.dev4+gd146c9655
-  sha256: f74433e30f038aa22c062daa0f044780d503dc0bf1134fc1bfd048337e137ded
+  version: 0.1.dev5+g0949cedc0.d20260306
+  sha256: 168e7da7f3689f4db94f2d8de6bf6039d93e2369b8fa84e75d93344bd0b372c5
   requires_python: ==3.14
   editable: true
 - conda: https://conda.anaconda.org/conda-forge/noarch/colorama-0.4.6-pyhd8ed1ab_1.conda
