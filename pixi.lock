@@ -2800,6 +2800,12 @@ packages:
   - pkg:pypi/cloudpickle?source=compressed-mapping
   size: 27353
   timestamp: 1765303462831
+- pypi: ./
+  name: cluster-analysis
+  version: 0.1.dev4+gd146c9655
+  sha256: f74433e30f038aa22c062daa0f044780d503dc0bf1134fc1bfd048337e137ded
+  requires_python: ==3.14
+  editable: true
 - conda: https://conda.anaconda.org/conda-forge/noarch/colorama-0.4.6-pyhd8ed1ab_1.conda
   sha256: ab29d57dc70786c1269633ba3dff20288b81664d3ff8d21af995742e2bb03287
   md5: 962b9857ee8e7018c22f2776ffa0b2d7
@@ -9030,12 +9036,6 @@ packages:
   purls: []
   size: 155869
   timestamp: 1767886839029
-- pypi: ./
-  name: template-project
-  version: 0.1.dev2+gfe908801a.d20260128
-  sha256: 2d7b55f8b3d902d48f1ee14e59038b35808d948df58c1f17f35793ed171ef5f4
-  requires_python: ==3.14
-  editable: true
 - conda: https://conda.anaconda.org/conda-forge/noarch/terminado-0.18.1-pyh6dadd2b_1.conda
   sha256: b375e8df0d5710717c31e7c8e93c025c37fa3504aea325c7a55509f64e5d4340
   md5: e43ca10d61e55d0a8ec5d8c62474ec9e
