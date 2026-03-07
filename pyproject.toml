@@ -90,6 +90,7 @@ pytest-xdist = "*"
 python-kaleido = ">=1.1"
 statsmodels = "*"
 ty = "*"
+pyarrow = "*"
 
 [tool.pixi.pypi-dependencies]
 cluster_analysis = { path = ".", editable = true }
