@@ -10,4 +10,15 @@ BLD: Path = ROOT.joinpath("bld").resolve()
 
 DOCUMENTS: Path = ROOT.joinpath("documents").resolve()
 
-TEMPLATE_GROUPS: tuple[str, ...] = ("marital_status", "highest_qualification")
+CONTINUOUS_VARS: tuple[str, ...] = ("age", "hours_weekly", "earnings_hourly")
+CATEGORICAL_VARS: tuple[str, ...] = (
+    "sex",
+    "education_level",
+    "race",
+    "hispanic",
+    "employment_status",
+    "full_part_time",
+    "class_of_worker",
+    "industry",
+    "occupation",
+)

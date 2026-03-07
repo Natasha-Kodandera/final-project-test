@@ -1,20 +1,9 @@
 import pandas as pd
 
+from cluster_analysis.config import CATEGORICAL_VARS, CONTINUOUS_VARS
+
 pd.options.mode.copy_on_write = True
 pd.options.future.infer_string = True
-
-CONTINUOUS_VARS = {"age", "hours_weekly", "earnings_hourly"}
-CATEGORICAL_VARS = {
-    "sex",
-    "education_level",
-    "race",
-    "hispanic",
-    "employment_status",
-    "full_part_time",
-    "class_of_worker",
-    "industry",
-    "occupation",
-}
 
 MIN_WORKING_AGE = 16
 
