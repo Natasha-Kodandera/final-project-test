@@ -5,6 +5,9 @@ import pandas as pd
 
 from cluster_analysis.config import BLD, SRC
 from cluster_analysis.data_management.clean_cps_data import clean_cps_data
+from cluster_analysis.data_management.prepare_clustering_data import (
+    prepare_clustering_data,
+)
 
 _PRODUCES = {
     "marker": BLD / "data" / ".unzip_done",
@@ -36,4 +39,15 @@ def task_clean_cps_data(
     raw = pd.read_csv(data)
     variable_info = pd.read_csv(info)
     df = clean_cps_data(raw, variable_info)
+    df.to_feather(produces)
+
+
+def task_prepare_clustering_data(
+    script: Path = SRC / "data_management" / "prepare_clustering_data.py",
+    data: Path = BLD / "data" / "cps_cleaned.feather",
+    produces: Path = BLD / "data" / "cps_clustering_data.feather",
+) -> None:
+    """Prepare clustering data from the cleaned CPS dataset."""
+    raw = pd.read_feather(data)
+    df = prepare_clustering_data(raw)
     df.to_feather(produces)

@@ -13,6 +13,7 @@ def prepare_clustering_data(df: pd.DataFrame) -> pd.DataFrame:
     out = _impute_missing_values(out)
     out = _convert_categorical_to_dummy(out)
     out = _standardize_continuous_variables(out)
+
     return out
 
 
@@ -20,6 +21,7 @@ def _select_clustering_features(df: pd.DataFrame) -> pd.DataFrame:
     """Keep only features used for clustering."""
     feature_columns = CONTINUOUS_VARS + CATEGORICAL_VARS
     data_columns = [column for column in feature_columns if column in df.columns]
+
     return df[data_columns].copy()
 
 
@@ -38,7 +40,7 @@ def _impute_missing_values(df: pd.DataFrame) -> pd.DataFrame:
     for column in CATEGORICAL_VARS:
         if column in out.columns and out[column].isna().any():
             mode_value = out[column].mode(dropna=True).iloc[0]
-            out[column] = out[column].fillna[mode_value]
+            out[column] = out[column].fillna(mode_value)
 
     return out
 
@@ -54,6 +56,7 @@ def _convert_categorical_to_dummy(df: pd.DataFrame) -> pd.DataFrame:
         return out
 
     out = pd.get_dummies(out, columns=columns_to_convert, drop_first=False, dtype=float)
+
     return out
 
 
@@ -68,6 +71,7 @@ def _standardize_continuous_variables(df: pd.DataFrame) -> pd.DataFrame:
         return out
 
     scaler = StandardScaler()
-    out[columns_to_standardize] = scaler.fit_transform(out[columns_to_standardize])
+    scaled_values = scaler.fit_transform(out[columns_to_standardize])
+    out[columns_to_standardize] = scaled_values
 
     return out
