@@ -1,4 +1,5 @@
 import pandas as pd
+from sklearn.preprocessing import StandardScaler
 
 from cluster_analysis.config import CATEGORICAL_VARS, CONTINUOUS_VARS
 
@@ -11,6 +12,7 @@ def prepare_clustering_data(df: pd.DataFrame) -> pd.DataFrame:
     out = _select_clustering_features(df)
     out = _impute_missing_values(out)
     out = _convert_categorical_to_dummy(out)
+    out = _standardize_continuous_variables(out)
     return out
 
 
@@ -52,4 +54,20 @@ def _convert_categorical_to_dummy(df: pd.DataFrame) -> pd.DataFrame:
         return out
 
     out = pd.get_dummies(out, columns=columns_to_convert, drop_first=False, dtype=float)
+    return out
+
+
+def _standardize_continuous_variables(df: pd.DataFrame) -> pd.DataFrame:
+    """Standardization of continuous variables in clustering features."""
+    out = df.copy()
+    columns_to_standardize = [
+        column for column in CONTINUOUS_VARS if column in out.columns
+    ]
+
+    if not columns_to_standardize:
+        return out
+
+    scaler = StandardScaler()
+    out[columns_to_standardize] = scaler.fit_transform(out[columns_to_standardize])
+
     return out
