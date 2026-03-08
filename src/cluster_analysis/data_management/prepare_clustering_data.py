@@ -1,3 +1,4 @@
+import numpy as np
 import pandas as pd
 from sklearn.preprocessing import StandardScaler
 
@@ -8,9 +9,24 @@ pd.options.future.infer_string = True
 
 
 def prepare_clustering_data(df: pd.DataFrame) -> pd.DataFrame:
-    """Prepare data for clustering."""
+    """Make cleaned CPS data suitable for clustering.
+
+    Perform preprocessing steps required by distance-based clustering algorithms:
+    1. Selecting variables/features relevant for clustering
+    2. Impute missing values
+    3. Apply log transformation to skewed variables
+    4. Convert categorical variables to dummies
+    5. Standardize continuous variables
+
+    Args:
+    df (pd.DataFrame): Clean CPS dataset produced by data cleaning pipeline.
+
+    Returns:
+    pd.DataFrame: Fully numeric feature matrix suitable for clustering.
+    """
     out = _select_clustering_features(df)
     out = _impute_missing_values(out)
+    out = _transform_log(out)
     out = _convert_categorical_to_dummy(out)
     out = _standardize_continuous_variables(out)
 
@@ -41,6 +57,16 @@ def _impute_missing_values(df: pd.DataFrame) -> pd.DataFrame:
         if column in out.columns and out[column].isna().any():
             mode_value = out[column].mode(dropna=True).iloc[0]
             out[column] = out[column].fillna(mode_value)
+
+    return out
+
+
+def _transform_log(df: pd.DataFrame) -> pd.DataFrame:
+    """Log transformation of highly skewed continuous variable."""
+    out = df.copy()
+
+    if "earnings_hourly" in out.columns:
+        out["earnings_hourly"] = np.log1p(out["earnings_hourly"])
 
     return out
 
