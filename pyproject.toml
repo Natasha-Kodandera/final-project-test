@@ -91,6 +91,7 @@ python-kaleido = ">=1.1"
 statsmodels = "*"
 ty = "*"
 pyarrow = "*"
+scikit-learn = "*"
 
 [tool.pixi.pypi-dependencies]
 cluster_analysis = { path = ".", editable = true }

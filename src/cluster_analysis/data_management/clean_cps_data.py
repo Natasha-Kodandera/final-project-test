@@ -6,6 +6,8 @@ pd.options.mode.copy_on_write = True
 pd.options.future.infer_string = True
 
 MIN_WORKING_AGE = 16
+MISSING_CODES = {-1, -2, -3}
+VALID_RANGE = {"age": (0, 85), "hours_weekly": (0, 99), "earnings_hourly": (0, 99.99)}
 
 
 def clean_cps_data(raw: pd.DataFrame, info: pd.DataFrame) -> pd.DataFrame:
@@ -35,6 +37,7 @@ def clean_cps_data(raw: pd.DataFrame, info: pd.DataFrame) -> pd.DataFrame:
         else:
             df[clean_col_name] = sr
 
+    df = _check_valid_range(df)
     df = _filter_labour_force(df)
 
     return df
@@ -42,7 +45,7 @@ def clean_cps_data(raw: pd.DataFrame, info: pd.DataFrame) -> pd.DataFrame:
 
 def _replace_missing_codes(sr: pd.Series) -> pd.Series:
     """Replace negative values (CPS missing codes) with NA."""
-    return sr.where(sr >= 0, other=pd.NA)
+    return sr.replace(list(MISSING_CODES), pd.NA)
 
 
 def _clean_categorical(sr: pd.Series) -> pd.Series:
@@ -55,8 +58,26 @@ def _clean_continuous(sr: pd.Series, var: str) -> pd.Series:
     sr = sr.copy()
 
     if var == "earnings_hourly":
-        sr = sr / 100.0
+        sr = sr / 100
+    if var == "hours_weekly":
+        sr = sr.replace(-4, pd.NA)
+
     return sr.astype(pd.Float32Dtype())
+
+
+def _check_valid_range(df: pd.DataFrame) -> pd.DataFrame:
+    """Check that values fall in valid range based on CPS data dictionary.
+
+    Values outside the range converted to NA.
+    """
+    df = df.copy()
+
+    for var, (min_value, max_value) in VALID_RANGE.items():
+        if var in df.columns:
+            invalid = (df[var] < min_value) | (df[var] > max_value)
+            df.loc[invalid, var] = pd.NA
+
+    return df
 
 
 def _filter_labour_force(df: pd.DataFrame) -> pd.DataFrame:
