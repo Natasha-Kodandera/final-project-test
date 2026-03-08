@@ -16,7 +16,7 @@ repos:
     rev: v6.0.0
     hooks:
       - id: check-added-large-files
-        args: [--maxkb=25]
+        args: [--maxkb=10000]
       - id: check-ast
       - id: check-case-conflict
       - id: check-docstring-first
@@ -41,7 +41,6 @@ repos:
     rev: v1.38.0
     hooks:
       - id: yamllint
-        exclude: ^(docs_template/\.readthedocs.yaml)$
   - repo: https://github.com/astral-sh/ruff-pre-commit
     rev: v0.14.14
     hooks:

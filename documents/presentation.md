@@ -5,22 +5,22 @@ class: text-center
 highlighter: shiki
 lineNumbers: false
 info: |
-  ## EXAMPLE PROJECT
+  ## Cluster Analysis on Labour Market Microdata
   Academic presentation with Slidev
 drawings:
   persist: false
 transition: fade
-title: EXAMPLE PROJECT
+title: Cluster Analysis on Labour Market Microdata
 mdc: true
 defaults:
   layout: center
 ---
 
-# EXAMPLE PROJECT
+# Cluster Analysis on Labour Market Microdata
 
-JANE DOE
+Natasha Somayya Kodandera
 
-EXAMPLE UNIVERSITY
+University of Bonn
 
 ---
 

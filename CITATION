@@ -1,6 +1,6 @@
-@Unpublished{DOE2024,
-    Title  = "EXAMPLE PROJECT",
-    Author = "JANE DOE",
+@Unpublished{Kodandera2026,
+    Title  = "Cluster Analysis on Labour Market Microdata",
+    Author = "Natasha Somayya Kodandera",
     Year   = "2024",
-    Url    = "https://github.com/opensourceeconomics/econ-project-templates",
+    Url    = "https://github.com/iame-uni-bonn/final-project-Natasha-Kodandera.git",
 }
