@@ -21,6 +21,9 @@ def clean_cps_data(raw: pd.DataFrame, info: pd.DataFrame) -> pd.DataFrame:
     pd.DataFrame: Cleaned CPS data with handled missing codes,
     enforced data types, and filtered for labour force.
     """
+    _fail_if_missing_columns(info)
+    _fail_if_metadata_variables_missing_in_data(raw, info)
+
     df = pd.DataFrame(index=raw.index)
 
     cps_cols = info["cps_name"].tolist()
@@ -86,3 +89,25 @@ def _filter_labour_force(df: pd.DataFrame) -> pd.DataFrame:
     working_age = df["age"] >= MIN_WORKING_AGE
     filtered = df[labour_force & working_age].copy()
     return filtered
+
+
+def _fail_if_missing_columns(info: pd.DataFrame) -> None:
+    missing = {"cps_name", "readable_name"} - set(info.columns)
+    if missing:
+        msg = f"Missing columns in metadata: {missing}."
+        raise ValueError(msg)
+
+
+def _fail_if_metadata_variables_missing_in_data(
+    raw: pd.DataFrame, info: pd.DataFrame
+) -> None:
+    """Raise error if variables listed in metadata are not in raw data."""
+    missing_columns = [
+        column for column in info["cps_name"] if column not in raw.columns
+    ]
+    if missing_columns:
+        msg = (
+            "These variables are listed in the metadata file but "
+            f"not found in raw data: {missing_columns}."
+        )
+        raise ValueError(msg)
