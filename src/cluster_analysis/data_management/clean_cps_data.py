@@ -42,6 +42,7 @@ def clean_cps_data(raw: pd.DataFrame, info: pd.DataFrame) -> pd.DataFrame:
 
     df = _check_valid_range(df)
     df = _filter_labour_force(df)
+    df = _drop_unused_categories(df)
 
     return df
 
@@ -89,6 +90,15 @@ def _filter_labour_force(df: pd.DataFrame) -> pd.DataFrame:
     working_age = df["age"] >= MIN_WORKING_AGE
     filtered = df[labour_force & working_age].copy()
     return filtered
+
+
+def _drop_unused_categories(df: pd.DataFrame) -> pd.DataFrame:
+    """Drop unused categories from categorical variables."""
+    df = df.copy()
+    for col in CATEGORICAL_VARS:
+        if col in df.columns:
+            df[col] = df[col].cat.remove_unused_categories()
+    return df
 
 
 def _fail_if_missing_columns(info: pd.DataFrame) -> None:
