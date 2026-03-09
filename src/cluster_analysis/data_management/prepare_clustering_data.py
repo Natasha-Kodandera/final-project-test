@@ -24,6 +24,9 @@ def prepare_clustering_data(df: pd.DataFrame) -> pd.DataFrame:
     Returns:
     pd.DataFrame: Fully numeric feature matrix suitable for clustering.
     """
+    _fail_if_input_not_dataframe(df)
+    _fail_if_earnings_negative(df)
+
     out = _select_clustering_features(df)
     out = _impute_missing_values(out)
     out = _transform_log(out)
@@ -101,3 +104,15 @@ def _standardize_continuous_variables(df: pd.DataFrame) -> pd.DataFrame:
     out[columns_to_standardize] = scaled_values
 
     return out
+
+
+def _fail_if_input_not_dataframe(df: pd.DataFrame) -> None:
+    if not isinstance(df, pd.DataFrame):
+        msg = f"Input must be a pandas dataframe, not {type(df)}."
+        raise TypeError(msg)
+
+
+def _fail_if_earnings_negative(df: pd.DataFrame) -> None:
+    if "earnings_hourly" in df.columns and (df["earnings_hourly"] < 0).any():
+        msg = "earnings_hourly cannot be negative."
+        raise ValueError(msg)
