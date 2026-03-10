@@ -5,9 +5,8 @@ import pandas as pd
 import pytask
 
 from cluster_analysis.analysis.clustering_model import fit_clustering_model
-from cluster_analysis.config import BLD, SRC
+from cluster_analysis.config import BLD, RANDOM_STATE, SRC
 
-RANDOM_STATE: int = 123
 N_CLUSTERS: int = 3
 METHODS: tuple[str, ...] = ("kmeans", "agglomerative")
 
