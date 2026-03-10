@@ -8,7 +8,7 @@ from cluster_analysis.analysis.cluster_selection import choose_n_clusters
 from cluster_analysis.analysis.clustering_model import fit_clustering_model
 from cluster_analysis.config import BLD, RANDOM_STATE, SRC
 
-N_CLUSTERS: int = 3
+N_CLUSTERS: int = 2
 N_CLUSTERS_TO_CHECK: tuple[int, ...] = (2, 3, 4, 5, 6)
 METHODS: tuple[str, ...] = ("kmeans", "agglomerative")
 
@@ -52,5 +52,6 @@ def task_choose_n_clusters(
             )
             results.append(result)
 
+    produces.parent.mkdir(parents=True, exist_ok=True)
     out = pd.concat(results, ignore_index=True)
     out.to_feather(produces)
