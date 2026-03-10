@@ -22,3 +22,5 @@ CATEGORICAL_VARS: tuple[str, ...] = (
     "industry",
     "occupation",
 )
+
+RANDOM_STATE: int = 123

@@ -92,6 +92,7 @@ statsmodels = "*"
 ty = "*"
 pyarrow = "*"
 scikit-learn = "*"
+libblas = { version = "*", build = "*openblas" }
 
 [tool.pixi.pypi-dependencies]
 cluster_analysis = { path = ".", editable = true }
