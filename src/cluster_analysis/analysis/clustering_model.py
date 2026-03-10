@@ -6,24 +6,26 @@ def fit_clustering_model(
     data: pd.DataFrame,
     method: str,
     n_clusters: int,
+    random_seed: int | None = None,
 ):
-    """Fit clustering model to CPS monthly data.
+    """Fit clustering model to prepared CPS data.
 
     Args:
     data(pd.DataFrame): Feature data ready for clustering.
-    method(str): Clustering method (K-means or agglomerative)
-    n_clusters(int): number of clusters
+    method(str): Clustering method (kmeans or agglomerative)
+    n_clusters(int): number of clusters to fit
+    random_seed(int): random seed used only for kmeans
 
     Returns:
     Fitted clustering model.
     """
     if method == "kmeans":
-        model = KMeans(n_clusters=n_clusters, random_state=123, n_init="auto")
+        model = KMeans(n_clusters=n_clusters, random_seed=random_seed, n_init="auto")
     elif method == "agglomerative":
         model = AgglomerativeClustering(n_clusters=n_clusters)
 
     else:
-        msg = "method should be 'kmeans' or 'agglomerative'."
+        msg = f"{method}: clustering method not supported."
         raise ValueError(msg)
 
     return model.fit(data)
