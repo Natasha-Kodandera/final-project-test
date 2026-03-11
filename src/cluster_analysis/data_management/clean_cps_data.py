@@ -48,7 +48,7 @@ def clean_cps_data(raw: pd.DataFrame, info: pd.DataFrame) -> pd.DataFrame:
 
 
 def _replace_missing_codes(sr: pd.Series) -> pd.Series:
-    """Replace negative values (CPS missing codes) with NA."""
+    """Replace CPS missing codes with NA."""
     return sr.replace(list(MISSING_CODES), pd.NA)
 
 
