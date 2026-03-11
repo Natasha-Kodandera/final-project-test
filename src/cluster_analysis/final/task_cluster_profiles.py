@@ -7,8 +7,8 @@ from cluster_analysis.config import BLD, SRC
 from cluster_analysis.final.cluster_profiles import create_cluster_profiles
 
 FINAL_CLUSTERED_DATA: dict[str, Path] = {
-    "kmeans_2": BLD / "model_results" / "cps_clustered_kmeans_2.feather",
-    "agglomerative_4": BLD / "model_results" / "cps_clustered_agglomerative_4.feather",
+    "kmeans_2": BLD / "final" / "cps_clustered_kmeans_2.feather",
+    "agglomerative_4": BLD / "final" / "cps_clustered_agglomerative_4.feather",
 }
 
 for model, data in FINAL_CLUSTERED_DATA.items():
