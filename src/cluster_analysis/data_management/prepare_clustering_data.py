@@ -7,6 +7,14 @@ from cluster_analysis.config import CATEGORICAL_VARS, CONTINUOUS_VARS
 pd.options.mode.copy_on_write = True
 pd.options.future.infer_string = True
 
+CLUSTERING_FEATURES = {
+    "age",
+    "hours_weekly",
+    "earnings_hourly",
+    "sex",
+    "employment_status",
+}
+
 
 def prepare_clustering_data(df: pd.DataFrame) -> pd.DataFrame:
     """Make cleaned CPS data suitable for clustering.
@@ -25,6 +33,7 @@ def prepare_clustering_data(df: pd.DataFrame) -> pd.DataFrame:
     pd.DataFrame: Fully numeric feature matrix suitable for clustering.
     """
     _fail_if_input_not_dataframe(df)
+    _fail_if_clustering_feature_not_valid(df)
     _fail_if_earnings_negative(df)
 
     out = _select_clustering_features(df)
@@ -38,7 +47,7 @@ def prepare_clustering_data(df: pd.DataFrame) -> pd.DataFrame:
 
 def _select_clustering_features(df: pd.DataFrame) -> pd.DataFrame:
     """Keep only features used for clustering."""
-    feature_columns = CONTINUOUS_VARS + CATEGORICAL_VARS
+    feature_columns = CLUSTERING_FEATURES
     data_columns = [column for column in feature_columns if column in df.columns]
 
     return df[data_columns].copy()
@@ -110,6 +119,18 @@ def _fail_if_input_not_dataframe(df: pd.DataFrame) -> None:
     if not isinstance(df, pd.DataFrame):
         msg = f"Input must be a pandas dataframe, not {type(df)}."
         raise TypeError(msg)
+
+
+def _fail_if_clustering_feature_not_valid() -> None:
+    valid = set(CONTINUOUS_VARS) | set(CONTINUOUS_VARS)
+    invalid = set(CLUSTERING_FEATURES) - valid
+    if invalid:
+        invalid_str = ",".join(sorted(invalid))
+        msg = (
+            "Selected clustering feature not in configured variable list: "
+            f"{invalid_str}."
+        )
+        raise ValueError(msg)
 
 
 def _fail_if_earnings_negative(df: pd.DataFrame) -> None:

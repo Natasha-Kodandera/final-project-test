@@ -38,9 +38,8 @@ def test_select_clustering_features_keeps_only_selected_features(
             "earnings_hourly",
             "sex",
             "employment_status",
-            "industry",
         ]
-    ]
+    ].copy()
     assert_frame_equal(got, exp)
 
 
