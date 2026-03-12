@@ -83,4 +83,4 @@ pipeline) -
 - Cluster 4: High earning people, but the sample is quite small
 
 The PCA scatter also suggests heterogeneity and general cluster separation, but there is
-also substantial overlap of Cluster 4, so the interpretation is not quite clear here.
+also substantial overlap in the centre, so the interpretation is not quite clear here.
