@@ -1,7 +1,9 @@
 from pathlib import Path
+from typing import Annotated
 
 import pandas as pd
 import pytask
+from pytask import Product
 
 from cluster_analysis.config import BLD, SRC
 from cluster_analysis.final.cluster_profiles import create_cluster_profiles
@@ -21,8 +23,12 @@ for model, data in FINAL_CLUSTERED_DATA.items():
         script: Path = SRC / "final" / "cluster_profiles.py",
         model: str = model,
         data: Path = data,
-        produces_feather: Path = BLD / "final" / f"cluster_profiles_{model}.feather",
-        produces_markdown: Path = BLD / "tables" / f"cluster_profiles_{model}.md",
+        produces_feather: Annotated[Path, Product] = BLD
+        / "final"
+        / f"cluster_profiles_{model}.feather",
+        produces_markdown: Annotated[Path, Product] = BLD
+        / "tables"
+        / f"cluster_profiles_{model}.md",
     ) -> None:
         """Create cluster profile table for final clustered CPS dataset."""
         df = pd.read_feather(data)
