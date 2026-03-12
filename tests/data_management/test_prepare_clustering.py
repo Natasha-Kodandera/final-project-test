@@ -38,10 +38,9 @@ def test_select_clustering_features_keeps_only_selected_features(
             "earnings_hourly",
             "sex",
             "employment_status",
-            "industry",
         ]
-    ]
-    assert_frame_equal(got, exp)
+    ].copy()
+    assert_frame_equal(got, exp, check_like=True)
 
 
 def test_impute_missing_values_replaces_na(clean_data: pd.DataFrame) -> None:

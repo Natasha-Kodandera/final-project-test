@@ -1,51 +1,73 @@
 # Cluster Analysis on Labour Market Microdata
 
-+++ {"part": "abstract"}
+## Introduction
 
-This is just a demonstration of how a simple paper might look like. We write some text,
-include a figure and a table.
+This project builds a reproducible pipeline to implement cluster analysis to identify
+meaningful clusters or segmentation in the labour market. The workflow starts with the
+raw data and proceeds to clean and preprocess the data, determine the clustering
+specifications and optimal number of clusters, and finally produces tables and figures
+for easy visualisation of the results.
 
-If you are using this template, please cite this item from the references:
-{cite}`GaudeckerEconProjectTemplates`.
+The pipeline is designed to support both k-means and agglomerative clustering. Although
+the final results only include the k-means model as it yields more interpretable
+results, the code can incorporate agglomerative clustering by simply adding it to the
+model dictionary, without having to restructure the entire codebase.
 
-+++
+## Data
 
-```{raw} latex
-\clearpage
-```
+The raw data used is the Current Population Survey (CPS) basic monthly file for January
+2026, released by the US Census Bureau. A mix of demographic variables and labour market
+indicators are chosen - such as age, sex, employment status, hours worked per week,
+earnings per hour, class of worker, industry, occupation and so on. These variables of
+interest are also listed in the `variable_info` file.
 
-The data set for the template project is taken from the
-[stats4schools website](https://www.stem.org.uk/resources/elibrary/resource/28452/large-datasets-stats4schools).
-It contains data on smoking habits in the UK, with 1691 observations and 12 variables.
+The sample for clustering is restricted to working-age population who are in the labour
+force. The variables considered for clustering include `age`, `sex`,
+`employment status`, `hours worked weekly` and `earnings per hour`.
 
-We consider only 4 of the 12 features for the prediction of the variable `smoking`:
-`marital_status`, `highest_qualification`, `gender` and `age`. We model the dependence
-using a Logistic model. All numerical features are included linearly, while categorical
-features are expanded into dummy variables.
+## Workflow
 
-Figure :ref:`fig:predictions` illustrates the model of smoking propensity by marital
-status over the lifetime. Table :ref:`tab:summary` contains the estimation results of
-the linear Logistic regression.
+1. Raw data cleaning
+1. Preprocessing data to make it ready for clustering
+1. Selecting optimal number of clusters
+1. Clustering model estimated and evaluated
+1. Generating cluster profiles and plots
 
-```{figure} public/smoking_by_marital_status.png
+## Results
+
+Both k-means and agglomerative clustering run through the same pipeline. Cluster quality
+is compared using different standard scores and based on these metrics, I choose k-means
+with 5 clusters as the final model specification to include in the results, owing to
+interpretability and runtime considerations.
+
+```{figure} ../bld/plots/silhouette_scores.png
 ---
 width: 85%
-label: fig:predictions
+label: fig:silhouette
 ---
-Model predictions of the smoking probability over the lifetime. Each
-colored line represents a case where marital status is fixed to one of the
-values present in the data set.
+Higher Silhouette score indicates well-separated clusters.
 ```
 
-````{table} Estimation results of the linear Logistic regression.
+```{figure} ../bld/plots/calinski_harabasz_scores.png
 ---
-label: tab:summary
-align: center
+width: 85%
+label: fig:calinski_harabasz
 ---
-```{include} tables/estimation_results.md
+Higher Calinski-Harabasz scores are better as it indicates more separation and more compact clusters.
 ```
 
-````
+```{figure} ../bld/plots/davies_bouldin_scores.png
+---
+width: 85%
+label: fig:davies_bouldin
+---
+Lower Davies-Bouldin score is better.
+```
 
-```{bibliography}
+```{figure} ../bld/plots/pca_scatter_kmeans_5.png
+---
+width: 85%
+label: fig:pca_scatter
+---
+Cluster assignments visualised in PCA-reduced dimensions for k-means model with 5 clusters.
 ```

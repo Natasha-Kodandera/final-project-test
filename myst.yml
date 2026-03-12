@@ -8,7 +8,7 @@ project:
   authors:
     - name: Natasha Somayya Kodandera
       affiliations: [University of Bonn]
-      email: janedoe@example-university.de
+      email: natashasomayya@gmail.com
   keywords: [economics, reproducible research]
   toc:
     - file: documents/paper.md

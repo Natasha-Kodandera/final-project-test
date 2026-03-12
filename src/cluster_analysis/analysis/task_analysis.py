@@ -9,8 +9,8 @@ from cluster_analysis.analysis.clustered_data import create_clustered_data
 from cluster_analysis.analysis.clustering_model import fit_clustering_model
 from cluster_analysis.config import BLD, RANDOM_STATE, SRC
 
-FINAL_N_CLUSTERS: dict[str, int] = {"kmeans": 2, "agglomerative": 4}
-N_CLUSTERS_TO_CHECK: tuple[int, ...] = (2, 3, 4, 5, 6)
+FINAL_N_CLUSTERS: dict[str, int] = {"kmeans": 5}
+N_CLUSTERS_TO_CHECK: tuple[int, ...] = (2, 3, 4, 5)
 METHODS: tuple[str, ...] = ("kmeans", "agglomerative")
 
 for method, n_clusters in FINAL_N_CLUSTERS.items():

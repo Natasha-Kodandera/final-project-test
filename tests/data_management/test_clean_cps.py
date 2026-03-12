@@ -73,10 +73,11 @@ def test_replace_missing_codes_convert_to_na() -> None:
     assert_series_equal(got, exp)
 
 
-def test_clean_categorical_dtype() -> None:
-    sr = pd.Series([1, 2, 1])
+def test_clean_categorical_dtype_keeps_values() -> None:
+    sr = pd.Series([1, 2, 1, pd.NA])
+    exp = pd.Series([1, 2, 1, pd.NA], dtype="category")
     got = _clean_categorical(sr)
-    assert str(got.dtype) == "category"
+    assert_series_equal(got, exp)
 
 
 def test_clean_continuous_unit_conversion() -> None:
@@ -121,13 +122,13 @@ def test_filter_labour_force_subset_correct() -> None:
     df = pd.DataFrame(
         {
             "employment_status": [1, 2, 3, 1],
-            "age": [10, 25, 30, 50],
+            "age": [10, 25, 30, 16],
         }
     )
     exp = pd.DataFrame(
         {
             "employment_status": [2, 1],
-            "age": [25, 50],
+            "age": [25, 16],
         },
         index=[1, 3],
     )
@@ -161,6 +162,6 @@ def test_clean_cps_data_cleaned_correct(
 def test_clean_cps_data_raises_error_on_missing_variable(
     raw_data: pd.DataFrame, info: pd.DataFrame
 ) -> None:
-    raw_data = raw_data.drop(columns=["prtage"])
+    raw = raw_data.drop(columns=["prtage"])
     with pytest.raises(ValueError, match="not found in raw data"):
-        clean_cps_data(raw_data, info)
+        clean_cps_data(raw, info)

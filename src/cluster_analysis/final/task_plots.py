@@ -1,38 +1,62 @@
 from pathlib import Path
 
 import pandas as pd
-import plotly.io as pio
 import pytask
 
 from cluster_analysis.config import BLD, SRC
 from cluster_analysis.final.plots import (
     plot_cluster_pca_scatter,
-    plot_silhouette_scores,
+    plot_cluster_scores,
 )
 
+pd.options.mode.copy_on_write = True
+pd.options.future.infer_string = True
+
+SCORE_SPECS: dict[str, dict[str, str]] = {
+    "silhouette": {
+        "column": "silhouette_score",
+        "label": "Silhouette score",
+        "file": "silhouette_scores.png",
+    },
+    "calinski_harabasz": {
+        "column": "calinski_harabasz_score",
+        "label": "Calinski-Harabasz score",
+        "file": "calinski_harabasz_scores.png",
+    },
+    "davies_bouldin": {
+        "column": "davies_bouldin_score",
+        "label": "Davies-Bouldin score",
+        "file": "davies_bouldin_scores.png",
+    },
+}
+
+
 FINAL_CLUSTERED_DATA: dict[str, Path] = {
-    "kmeans_2": BLD / "final" / "cps_clustered_kmeans_2.feather",
-    "agglomerative_4": BLD / "final" / "cps_clustered_agglomerative_4.feather",
-}
-
-FINAL_PROFILE_TABLES: dict[str, Path] = {
-    "kmeans_2": BLD / "final" / "cluster_profiles_kmeans_2.feather",
-    "agglomerative_4": BLD / "final" / "cluster_profiles_agglomerative_4.feather",
+    "kmeans_5": BLD / "final" / "cps_clustered_kmeans_5.feather",
 }
 
 
-def task_plot_silhouette_scores(
-    script: Path = SRC / "final" / "plots.py",
-    data: Path = BLD / "model_results" / "cluster_selection_scores.feather",
-    produces: Path = BLD / "plots" / "silhouette_scores.png",
-) -> None:
-    """Plot silhouette scores by clustering method."""
-    df = pd.read_feather(data)
-    fig = plot_silhouette_scores(df)
+for score_name, spec in SCORE_SPECS.items():
 
-    produces.parent.mkdir(parents=True, exist_ok=True)
-    pio.get_chrome()
-    fig.write_image(produces)
+    @pytask.task(id=score_name)
+    def task_plot_cluster_scores(
+        script: Path = SRC / "final" / "plots.py",
+        score_column: str = spec["column"],
+        score_label: str = spec["label"],
+        data: Path = BLD / "model_results" / "cluster_selection_scores.feather",
+        produces: Path = BLD / "plots" / spec["file"],
+    ) -> None:
+        """Plot cluster-quality scores by clustering method."""
+        df = pd.read_feather(data)
+
+        fig = plot_cluster_scores(
+            df=df,
+            score_column=score_column,
+            score_label=score_label,
+        )
+
+        produces.parent.mkdir(parents=True, exist_ok=True)
+        fig.write_image(produces)
 
 
 for model, data in FINAL_CLUSTERED_DATA.items():
@@ -56,5 +80,4 @@ for model, data in FINAL_CLUSTERED_DATA.items():
         )
 
         produces.parent.mkdir(parents=True, exist_ok=True)
-        pio.get_chrome()
         fig.write_image(produces)

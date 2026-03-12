@@ -8,10 +8,10 @@ def create_cluster_profiles(df: pd.DataFrame) -> pd.DataFrame:
     """Create table of cluster profiles from clustered CPS data.
 
     Args:
-    df(pd.DataFrame): Cleaned CPS data with cluster labels.
+        df(pd.DataFrame): Cleaned CPS data with cluster labels.
 
     Returns:
-    pd.DataFrame: Cluster-level summary table.
+        pd.DataFrame: Cluster-level summary table.
     """
     grouped = df.groupby("cluster", observed=True, sort=True)
 

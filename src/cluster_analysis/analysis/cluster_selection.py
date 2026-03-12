@@ -1,3 +1,4 @@
+import numpy as np
 import pandas as pd
 from sklearn.metrics import (
     calinski_harabasz_score,
@@ -18,23 +19,26 @@ def choose_n_clusters(
     """Evaluate clustering model for cluster selection.
 
     Args:
-    data: Prepared feature data used for clustering.
-    method: Clustering method, either 'kmeans' or 'agglomerative'
-    n_clusters: number of clusters to fit
-    random_state: random seed used for kmeans
+        data: Prepared feature data used for clustering.
+        method: Clustering method, either 'kmeans' or 'agglomerative'
+        n_clusters: Number of clusters to fit
+        random_state: Random seed used only for kmeans.
 
     Returns:
-    One-row dataframe with clustering evaluation results.
+        Dataframe with clustering evaluation results.
     """
+    x = data.to_numpy(copy=False)
+
     model = fit_clustering_model(
         data=data,
         method=method,
         n_clusters=n_clusters,
         random_state=random_state,
     )
-    labels = pd.Series(model.labels_)
-    scores = _calculate_cluster_scores(data=data, labels=labels)
-    cluster_sizes = labels.value_counts()
+    labels = model.labels_
+    scores = _calculate_cluster_scores(data=x, labels=labels, random_state=random_state)
+    cluster_sizes = np.bincount(labels)
+    cluster_sizes = cluster_sizes[cluster_sizes > 0]
 
     out = pd.DataFrame(
         {
@@ -52,11 +56,20 @@ def choose_n_clusters(
 
 
 def _calculate_cluster_scores(
-    data: pd.DataFrame, labels: pd.Series
+    data: np.ndarray,
+    labels: np.ndarray,
+    random_state: int,
 ) -> dict[str, float]:
     """Calculate internal clustering evaluation scores."""
     return {
-        "silhouette_score": float(silhouette_score(data, labels)),
+        "silhouette_score": float(
+            silhouette_score(
+                data,
+                labels,
+                sample_size=min(len(labels), 5000),
+                random_state=random_state,
+            )
+        ),
         "calinski_harabasz_score": float(calinski_harabasz_score(data, labels)),
         "davies_bouldin_score": float(davies_bouldin_score(data, labels)),
     }
