@@ -7,13 +7,13 @@ from cluster_analysis.config import CATEGORICAL_VARS, CONTINUOUS_VARS
 pd.options.mode.copy_on_write = True
 pd.options.future.infer_string = True
 
-CLUSTERING_FEATURES = {
+CLUSTERING_FEATURES = [
     "age",
     "hours_weekly",
     "earnings_hourly",
     "sex",
     "employment_status",
-}
+]
 
 
 def prepare_clustering_data(df: pd.DataFrame) -> pd.DataFrame:
@@ -122,7 +122,7 @@ def _fail_if_input_not_dataframe(df: pd.DataFrame) -> None:
 
 
 def _fail_if_clustering_feature_not_valid() -> None:
-    valid = set(CONTINUOUS_VARS) | set(CONTINUOUS_VARS)
+    valid = set(CONTINUOUS_VARS) | set(CATEGORICAL_VARS)
     invalid = set(CLUSTERING_FEATURES) - valid
     if invalid:
         invalid_str = ",".join(sorted(invalid))
