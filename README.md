@@ -1,12 +1,62 @@
-# EPP Final Project: Cluster Analysis on Labour Market Microdata
+# Cluster Analysis on Labour Market Microdata
 
-The project seeks to build a reproducible pipeline implementing an unsupervised learning method, namely cluster analysis, using micro-level data on the labour market. 
+This project builds a reproducible pipeline implementing an unsupervised learning method
+\- cluster analysis - using CPS labour market microdata to identify worker segments. The
+pipeline supports k-means and agglomerative clustering, with final results produced
+using k-means (5 clusters).
 
-### Proposed workflow:
+## Quick Start
 
-- Data cleaning and management
-- Implementing multiple clustering algorithms (k-means and hierarchical clustering at the least)
-- Selecting number of clusters using standard metrics
-- Evaluation of cluster stability and quality using standard metrics
-- Visualizations/plots
+1. Install [pixi](https://pixi.prefix.dev/latest/), which is the only prerequisite.
+1. Clone the repository and navigate to the final project folder.
+1. Install and activate the project environment:
+   ```
+   pixi install
+   pixi shell
+   ```
+1. Build the project:
+   ```
+   # To run the full pipeline
+   pixi run pytask
 
+   # To run the tests
+   pixi run pytest
+   ```
+
+## Directory Structure
+
+- `src/cluster_analysis/` – Source code for the clustering pipeline.
+
+  - `data/raw` – Zipped raw CPS data, data dictionary, and variable information.
+  - `data_management/`
+    - `clean_cps_data.py` – Cleans CPS raw data.
+    - `prepare_clustering_data.py` – Prepares dataset for clustering.
+    - `task_data_management.py` – Runs the data management pipeline.
+  - `analysis/`
+    - `cluster_selection.py` – Determines optimal number of clusters.
+    - `clustered_data.py` – Assigns cluster labels to cleaned data.
+    - `clustering_model.py` – Implements clustering algorithms.
+    - `task_analysis.py` – Executes clustering analysis.
+  - `final/`
+    - `cluster_profiles.py` – Generates cluster summaries.
+    - `plots.py` – Creates plots of clustering results.
+    - `task_cluster_profiles.py` – Builds cluster profiles.
+    - `task_plots.py` – Generates final plots.
+
+- `tests/`
+
+  - `analysis/` – Tests for clustering analysis code.
+  - `data_management/` – Tests for data preparation code.
+
+- `documents/`
+
+  - `paper.md` – Final project report.
+  - `task_paper.py` – Compiles the paper.
+
+- `bld/` – Build directory with intermediate and final outputs (not version controlled).
+
+  - `data/` – Raw unzipped and cleaned datasets.
+  - `model_results/` – Saved clustering outputs.
+  - `tables/` – Generated tables.
+  - `plots/` – Generated figures.
+  - `final/` – Final clustered dataset.

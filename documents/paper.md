@@ -71,3 +71,16 @@ label: fig:pca_scatter
 ---
 Cluster assignments visualised in PCA-reduced dimensions for k-means model with 5 clusters.
 ```
+
+The k-means clustering identifies five labour market segments showing these patterns in
+demographics and earnings (also suggested by the cluster profiles generated in the
+pipeline) -
+
+- Cluster 0: Mostly female part-time workers
+- Cluster 1: Older (higher mean age) hispanic-dominated group
+- Cluster 2: Younger (relatively lower mean age), full-time workers
+- Cluster 3: Female-dominated older workers
+- Cluster 4: High earning people, but the sample is quite small
+
+The PCA scatter also suggests heterogeneity and general cluster separation, but there is
+also substantial overlap of Cluster 4, so the interpretation is not quite clear here.
