@@ -10,16 +10,16 @@ using k-means (5 clusters).
 1. Install [pixi](https://pixi.prefix.dev/latest/), which is the only prerequisite.
 1. Clone the repository and navigate to the final project folder.
 1. Install and activate the project environment:
-   ```
+   ```bash
    pixi install
    pixi shell
    ```
 1. Build the project:
-   ```
-   # To run the full pipeline
+   ```bash
+   #To run the full pipeline
    pixi run pytask
 
-   # To run the tests
+   #To run the tests
    pixi run pytest
    ```
 
