@@ -32,8 +32,7 @@ SCORE_SPECS: dict[str, dict[str, str]] = {
 
 
 FINAL_CLUSTERED_DATA: dict[str, Path] = {
-    "kmeans_2": BLD / "final" / "cps_clustered_kmeans_2.feather",
-    "agglomerative_4": BLD / "final" / "cps_clustered_agglomerative_4.feather",
+    "kmeans_5": BLD / "final" / "cps_clustered_kmeans_5.feather",
 }
 
 
