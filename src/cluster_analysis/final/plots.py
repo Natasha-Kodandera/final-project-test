@@ -21,11 +21,17 @@ PROFILE_VARS = [
 ]
 
 
-def plot_silhouette_scores(df: pd.DataFrame) -> go.Figure:
-    """Plot silhouette scores by clustering method and number of clusters.
+def plot_cluster_scores(
+    df: pd.DataFrame,
+    score_column: str,
+    score_label: str,
+) -> go.Figure:
+    """Plot cluster quality scores by clustering method and number of clusters.
 
     Args:
-        df (pd.DataFrame): Cluster selection results
+        df (pd.DataFrame): Cluster selection score results.
+        score_column (str): Column name of score to plot.
+        score_label (str): Label for the score.
 
     Returns:
         go.Figure: Plotly figure.
@@ -35,18 +41,19 @@ def plot_silhouette_scores(df: pd.DataFrame) -> go.Figure:
     fig = px.line(
         plot_data,
         x="n_clusters",
-        y="silhouette_score",
+        y=score_column,
         color="method",
         markers=True,
         labels={
             "n_clusters": "Number of clusters",
-            "silhouette_score": "Silhouette Score",
+            score_column: score_label,
             "method": "Method",
         },
     )
 
     fig.update_layout(
-        title="Silhouette scores by clustering method",
+        title=f"{score_label} by clustering method",
+        legend_title_text="Method",
     )
 
     return fig
