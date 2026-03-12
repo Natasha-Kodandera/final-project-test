@@ -14,11 +14,11 @@ def clean_cps_data(raw: pd.DataFrame, info: pd.DataFrame) -> pd.DataFrame:
     """Clean the CPS basic monthly dataset for January 2026.
 
     Args:
-    raw (pd.DataFrame): Raw CPS dataframe.
-    info (pd.DataFrame): The CPS variable info table
+        raw (pd.DataFrame): Raw CPS data.
+        info (pd.DataFrame): CPS variables info table.
 
     Returns:
-    pd.DataFrame: Cleaned CPS data with handled missing codes,
+        pd.DataFrame: Cleaned CPS data with handled missing codes,
     enforced data types, and filtered for labour force.
     """
     _fail_if_missing_columns(info)
@@ -70,10 +70,7 @@ def _clean_continuous(sr: pd.Series, var: str) -> pd.Series:
 
 
 def _check_valid_range(df: pd.DataFrame) -> pd.DataFrame:
-    """Check that values fall in valid range based on CPS data dictionary.
-
-    Values outside the range converted to NA.
-    """
+    """Set out-of-range values as per data dictionary to NA."""
     df = df.copy()
 
     for var, (min_value, max_value) in VALID_RANGE.items():
@@ -102,6 +99,7 @@ def _drop_unused_categories(df: pd.DataFrame) -> pd.DataFrame:
 
 
 def _fail_if_missing_columns(info: pd.DataFrame) -> None:
+    """Raise error if required column is missing."""
     missing = {"cps_name", "readable_name"} - set(info.columns)
     if missing:
         msg = f"Missing columns in metadata: {missing}."

@@ -17,10 +17,10 @@ CLUSTERING_FEATURES = [
 
 
 def prepare_clustering_data(df: pd.DataFrame) -> pd.DataFrame:
-    """Make cleaned CPS data suitable for clustering.
+    """Prepare cleaned CPS data suitable for clustering.
 
-    Perform preprocessing steps required by distance-based clustering algorithms:
-    1. Selecting variables/features relevant for clustering
+    Perform preprocessing steps required by clustering algorithms:
+    1. Selecting features relevant for clustering
     2. Impute missing values
     3. Apply log transformation to skewed variables
     4. Convert categorical variables to dummies
@@ -33,7 +33,7 @@ def prepare_clustering_data(df: pd.DataFrame) -> pd.DataFrame:
     pd.DataFrame: Fully numeric feature matrix suitable for clustering.
     """
     _fail_if_input_not_dataframe(df)
-    _fail_if_clustering_feature_not_valid(df)
+    _fail_if_clustering_feature_not_valid()
     _fail_if_earnings_negative(df)
 
     out = _select_clustering_features(df)
@@ -116,12 +116,14 @@ def _standardize_continuous_variables(df: pd.DataFrame) -> pd.DataFrame:
 
 
 def _fail_if_input_not_dataframe(df: pd.DataFrame) -> None:
+    """Raise error if input not dataframe."""
     if not isinstance(df, pd.DataFrame):
-        msg = f"Input must be a pandas dataframe, not {type(df)}."
+        msg = f"Input must be a pandas DataFrame, not {type(df)}."
         raise TypeError(msg)
 
 
 def _fail_if_clustering_feature_not_valid() -> None:
+    """Raise error if clustering feature not in configured variables."""
     valid = set(CONTINUOUS_VARS) | set(CATEGORICAL_VARS)
     invalid = set(CLUSTERING_FEATURES) - valid
     if invalid:
@@ -134,6 +136,7 @@ def _fail_if_clustering_feature_not_valid() -> None:
 
 
 def _fail_if_earnings_negative(df: pd.DataFrame) -> None:
+    """Raise error if hourly earnings is negative."""
     if "earnings_hourly" in df.columns and (df["earnings_hourly"] < 0).any():
         msg = "earnings_hourly cannot be negative."
         raise ValueError(msg)

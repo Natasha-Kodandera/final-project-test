@@ -1,7 +1,6 @@
 from pathlib import Path
 
 import pandas as pd
-import plotly.io as pio
 import pytask
 
 from cluster_analysis.config import BLD, SRC
@@ -10,14 +9,13 @@ from cluster_analysis.final.plots import (
     plot_silhouette_scores,
 )
 
+pd.options.mode.copy_on_write = True
+pd.options.future.infer_string = True
+
+
 FINAL_CLUSTERED_DATA: dict[str, Path] = {
     "kmeans_2": BLD / "final" / "cps_clustered_kmeans_2.feather",
     "agglomerative_4": BLD / "final" / "cps_clustered_agglomerative_4.feather",
-}
-
-FINAL_PROFILE_TABLES: dict[str, Path] = {
-    "kmeans_2": BLD / "final" / "cluster_profiles_kmeans_2.feather",
-    "agglomerative_4": BLD / "final" / "cluster_profiles_agglomerative_4.feather",
 }
 
 
@@ -31,7 +29,6 @@ def task_plot_silhouette_scores(
     fig = plot_silhouette_scores(df)
 
     produces.parent.mkdir(parents=True, exist_ok=True)
-    pio.get_chrome()
     fig.write_image(produces)
 
 
@@ -56,5 +53,4 @@ for model, data in FINAL_CLUSTERED_DATA.items():
         )
 
         produces.parent.mkdir(parents=True, exist_ok=True)
-        pio.get_chrome()
         fig.write_image(produces)

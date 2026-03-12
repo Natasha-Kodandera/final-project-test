@@ -17,12 +17,13 @@ _PRODUCES = {
 
 
 def task_unzip_data(
-    data=SRC / "data" / "raw" / "cps_data.zip",
-    produces=_PRODUCES,
+    data: Path = SRC / "data" / "raw" / "cps_data.zip",
+    produces: dict[str, Path] = _PRODUCES,
 ) -> None:
-    """Unzip the raw data file."""
+    """Unzip the CPS raw data file."""
     out_path = BLD / "data"
     out_path.mkdir(parents=True, exist_ok=True)
+
     with zipfile.ZipFile(data, "r") as zip_ref:
         zip_ref.extractall(path=out_path)
 

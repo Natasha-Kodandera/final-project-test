@@ -25,10 +25,10 @@ def plot_silhouette_scores(df: pd.DataFrame) -> go.Figure:
     """Plot silhouette scores by clustering method and number of clusters.
 
     Args:
-    df (pd.DataFrame): Cluster selection results
+        df (pd.DataFrame): Cluster selection results
 
     Returns:
-    go.Figure: Plotly figure.
+        go.Figure: Plotly figure.
     """
     plot_data = df.sort_values(["method", "n_clusters"])
 
@@ -60,12 +60,12 @@ def plot_cluster_pca_scatter(
     """Plot clustered observations on the first 2 PCA components.
 
     Args:
-    df_features(pd.DataFrame): prepared clustering feature matrix
-    labels(pd.Series): cluster labels
-    model(str): name of clustering method
+        df_features (pd.DataFrame): prepared clustering feature matrix
+        labels (pd.Series): cluster labels
+        model (str): name of clustering method
 
     Returns:
-    go.Figure: Plotly figure.
+        go.Figure: Plotly figure.
     """
     components = PCA(n_components=2).fit_transform(df_features)
     plot_data = pd.DataFrame(
